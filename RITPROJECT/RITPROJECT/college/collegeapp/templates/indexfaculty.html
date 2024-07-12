@@ -1,0 +1,201 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<html>
+
+<body>
+  <!-- ======= Header ======= -->
+  <header id="header" class="header fixed-top d-flex align-items-center">
+  
+    <div class="d-flex align-items-center justify-content-between">
+      <a href="indexfaculty.html" class="logo d-flex align-items-center">
+       <!-- <img src="{% static 'assets/img/logo.png' %}" alt=""> -->
+        <span class="d-none d-lg-block">RIT CSE</span>
+      </a>
+      <i class="bi bi-list toggle-sidebar-btn"></i>
+    </div><!-- End Logo -->
+  
+  
+    <nav class="header-nav ms-auto">
+      
+  
+          <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+            <img src="{% static 'assets/img/profile_pic.jpg' %}" alt="Profile" class="rounded-circle">
+            <span class="d-none d-md-block dropdown-toggle ps-2">Faculty</span>
+          </a><!-- End Profile Iamge Icon -->
+  
+          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+            
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="{% url 'loginpage' %}">
+                <i class="bi bi-box-arrow-right"></i>
+                <span>Sign Out</span>
+              </a>
+            </li>
+  
+          </ul><!-- End Profile Dropdown Items -->
+        </li><!-- End Profile Nav -->
+  
+      </ul>
+    </nav><!-- End Icons Navigation -->
+  
+  </header><!-- End Header -->
+    <!-- ======= Sidebar ======= -->
+    <aside id="sidebar" class="sidebar">
+  
+      <ul class="sidebar-nav" id="sidebar-nav">
+  
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'indexfaculty' %}">
+            <i class="bi bi-grid"></i>
+            <span>Dashboard</span>
+          </a>
+        </li><!-- End Dashboard Nav -->
+  
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'uploadinternalmark1' %}">
+            <i class="bi bi-journal-text"></i><span>Upload Internal Marks</span>
+          </a>
+        </li><!-- End Forms Nav -->
+  
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'uploadattendance1' %}">
+            <i class="bi bi-layout-text-window-reverse"></i><span>Upload Attendance</span>
+          </a>
+        </li><!-- End Tables Nav -->
+        
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'facviewinternalmark' %}">
+            <i class="bi bi-layout-text-window-reverse"></i><span>View Internal Mark</span>
+          </a>
+        </li>
+        
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'facviewattendance' %}">
+            <i class="bi bi-layout-text-window-reverse"></i><span>View Attendance</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'dutymedleave1' %}">
+            <i class="bi bi-bar-chart"></i><span>Duty/Medical Leave</span>
+          </a>
+        </li><!-- End Charts Nav -->
+  
+        <li class="nav-heading">More</li>
+        <li class="nav-item">
+          <a class="nav-link collapsed" href="{% url 'contact1' %}">
+            <i class="bi bi-envelope"></i>
+            <span>Contact</span>
+          </a>
+        </li>
+      </ul>
+  
+    </aside><!-- End Sidebar-->
+  <main id="main" class="main">
+    <div class="pagetitle">
+      <h1>Welcome Faculty!</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'indexfaculty' %}">Home</a></li>
+          <li class="breadcrumb-item active">Dashboard</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+    <!-- Default Card -->
+    <!-- <div class="row">
+      <div class="col-xxl-4 col-md-5">
+          <div class="card">
+              <div class="card-body">
+                  <div class="d-flex align-items-center">
+                      <h5 class="card-title" style="margin-left: 10px; font-size: 1.2em;">No: of students with attendance less than 75%</h5>
+                  </div>
+                  <div class="card-text">
+                      <p><i class="bi bi-people" style="color: blue;"></i> &nbsp;<strong>3</strong> </p>
+                  </div>
+              </div>
+          </div>
+      </div> -->
+  
+      
+  
+ 
+  <!-- End Default Card -->
+  
+      <div class="col-12">
+        <div class="card recent-sales overflow-auto">
+          <div class="card-body">
+            <h5 class="card-title">Duty Leave / Medical Leave Requests</h5>
+            <table class="table table-borderless datatable">
+              <thead>
+                <tr>
+                  <th scope="col">Roll No</th>
+                  <th scope="col">Name of Student</th>
+                  <th scope="col">Category</th>
+                  <th scope="col">Date</th>
+                  <!-- <th scope="col">Status</th> -->
+                </tr>
+              </thead>
+              <tbody>
+                   {% for lv in lvr %}
+
+                <tr>
+
+        <th scope="row">{{lv.Students.Rollno}}</th>
+        <td>{{lv.Students.Name}}</td>
+        <td>{{lv.LeaveType}} </td>
+        <!-- <td>{{lv.Subjects.Subject_name}}</td> -->
+        
+        <td>{{lv.Date}}</td>
+                </tr>
+        {%endfor%}
+                
+                <!-- <tr> -->
+                  <!-- <th scope="row"><a href="">34</a></th> -->
+                  <!-- <td>Ann Thomas</td> -->
+                  <!-- <td><a href="#" class="text-primary">Duty Leave</a></td> -->
+                  <!-- <td>23-02-2023</td> -->
+                  <!-- <td><span class="badge bg-success">Approved</span></td> -->
+                <!-- </tr> -->
+                <!-- <tr> -->
+                  <!-- <th scope="row"><a href="Roll No">47</a></th> -->
+                  <!-- <td>Jennifer Antony</td> -->
+                  <!-- <td><a href="#" class="text-primary">Medical leave</a></td> -->
+                  <!-- <td>20-01-2023</td> -->
+                  <!-- <td><span class="badge bg-warning">Pending</span></td> -->
+                <!-- </tr> -->
+                <!-- <tr> -->
+                  <!-- <th scope="row"><a href="Roll No">20</a></th> -->
+                  <!-- <td>Aavani Prasad</td> -->
+                  <!-- <td><a href="#" class="text-primary">Medical leave</a></td> -->
+                  <!-- <td>11-02-2023</td> -->
+                  <!-- <td><span class="badge bg-success">Approved</span></td> -->
+                <!-- </tr> -->
+                <!-- <tr> -->
+                  <!-- <th scope="row"><a href="Roll No">26</a></th> -->
+                  <!-- <td>Amal Jacob</td> -->
+                  <!-- <td><a href="#" class="text-primary">Duty leave</a></td> -->
+                  <!-- <td>23-02-2023</td> -->
+                  <!-- <td><span class="badge bg-danger">Rejected</span></td> -->
+                <!-- </tr> -->
+                <!-- <tr> -->
+                  <!-- <th scope="row"><a href="Roll No">44</a></th> -->
+                  <!-- <td>Jerad George</td> -->
+                  <!-- <td><a href="#" class="text-primary">Duty Leave</a></td> -->
+                  <!-- <td>04-01-2023</td> -->
+                  <!-- <td><span class="badge bg-success">Approved</span></td> -->
+                <!-- </tr> -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div><!-- End Recent Sales -->
+    </div>
+    </div><!-- End Card Container -->
+    </div><!-- End Row -->
+  
+  </main>
+
+</body>
+
+</html>
+{% endblock %}

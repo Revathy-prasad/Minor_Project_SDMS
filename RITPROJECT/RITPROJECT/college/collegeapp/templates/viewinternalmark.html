@@ -1,0 +1,246 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.5/jspdf.min.js"></script>  
+<script>
+
+  $(document).ready(function () {  
+    var form = $('.form'),  
+    cache_width = form.width(),  
+    a4 = [595.28, 841.89]; // for a4 size paper width and height  
+    $('#generate_pdf').on('click', function () {  
+        $('body').scrollTop(0);  
+        generatePDF();  
+    });  
+    function generatePDF() {  
+        getCanvas().then(function (canvas) { 
+            var img = canvas.toDataURL("image/png"),  
+             doc = new jsPDF({  
+                 unit: 'px',  
+                 format: 'a4'  
+             });  
+            doc.addImage(img, 'JPEG', 20, 20);  
+            doc.save('InternalMark.pdf');  
+            form.width(cache_width);  
+        });  
+    }  
+    function getCanvas() {  
+        form.width((a4[0] * 1.33333) - 80).css('max-width', 'none');  
+        return html2canvas(form, {  
+            imageTimeout: 2000,  
+            removeContainer: true  
+        });  
+    }
+});
+
+</script>
+<body>
+
+  <!-- ======= Header ======= -->
+   <!-- ======= Header ======= -->
+   <header id="header" class="header fixed-top d-flex align-items-center">
+
+    <div class="d-flex align-items-center justify-content-between">
+      <a href="index.html" class="logo d-flex align-items-center">
+       <!-- <img src="{% static 'assets/img/logo.png' %}" alt=""> -->
+        <span class="d-none d-lg-block">RIT CSE</span>
+      </a>
+      <i class="bi bi-list toggle-sidebar-btn"></i>
+    </div><!-- End Logo -->
+
+
+    <nav class="header-nav ms-auto">
+      
+
+          <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+            <img src="{% static 'assets/img/profile_pic.jpg' %}" alt="Profile" class="rounded-circle">
+            <span class="d-none d-md-block dropdown-toggle ps-2">Student</span>
+          </a><!-- End Profile Iamge Icon -->
+
+          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+            
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="{% url 'loginpage' %}">
+                <i class="bi bi-box-arrow-right"></i>
+                <span>Sign Out</span>
+              </a>
+            </li>
+
+          </ul><!-- End Profile Dropdown Items -->
+        </li><!-- End Profile Nav -->
+
+      </ul>
+    </nav><!-- End Icons Navigation -->
+
+  </header><!-- End Header -->
+
+  <!-- ======= Sidebar ======= -->
+  <aside id="sidebar" class="sidebar">
+
+    <ul class="sidebar-nav" id="sidebar-nav">
+
+      <li class="nav-item">
+        <a class="nav-link " href="{% url 'index' %}">
+          <i class="bi bi-grid"></i>
+          <span>Dashboard</span>
+        </a>
+      </li><!-- End Dashboard Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-menu-button-wide"></i><span><!-- Components-->Personal details</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          <li>
+            <a href="{% url 'viewpersonaldetails1' %}">
+              <i class="bi bi-circle"></i><span>View</span>
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'edit' %}">
+              <i class="bi bi-circle"></i><span>Edit</span>
+            </a>
+          </li>
+         <!-- <li>
+            <a href="components-badges.html">
+              <i class="bi bi-circle"></i><span>Badges</span>
+            </a>
+          </li>
+          <li>
+            <a href="components-breadcrumbs.html">
+              <i class="bi bi-circle"></i><span>Breadcrumbs</span>
+            </a>
+          </li>
+          <li>
+            <a href="components-buttons.html">
+              <i class="bi bi-circle"></i><span>Buttons</span>
+            </a>
+          </li>
+          <li>
+            <a href="components-cards.html">
+              <i class="bi bi-circle"></i><span>Cards</span>
+            </a>
+          </li>
+          <li>
+            <a href="components-carousel.html">
+              <i class="bi bi-circle"></i><span>Carousel</span>
+            </a>
+          </li>
+          <li>
+            <a href="components-list-group.html">
+              <i class="bi bi-circle"></i><span>List group</span>
+            </a>
+          </li>
+          <li>
+            <a href="components-modal.html">
+              <i class="bi bi-circle"></i><span>Modal</span>
+            </a>
+          </li>
+          <li>
+            <a href="components-tabs.html">
+              <i class="bi bi-circle"></i><span>Tabs</span>
+            </a>
+          </li>
+          <li>
+            <a href="components-pagination.html">
+              <i class="bi bi-circle"></i><span>Pagination</span>
+            </a>
+          </li>
+          <li>
+            <a href="components-progress.html">
+              <i class="bi bi-circle"></i><span>Progress</span>
+            </a>
+          </li>
+          <li>
+            <a href="components-spinners.html">
+              <i class="bi bi-circle"></i><span>Spinners</span>
+            </a>
+          </li>
+          <li>
+            <a href="components-tooltips.html">
+              <i class="bi bi-circle"></i><span>Tooltips</span>
+            </a>
+          </li>-->
+        </ul>
+      </li><!-- End Components Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'viewinternalmark1' %}">
+          <i class="bi bi-journal-text"></i><span>View Internal Mark</span>
+          <!--<i class="bi bi-chevron-down ms-auto"></i>-->
+        </a>
+        
+
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'viewattendance1' %}">
+          <i class="bi bi-calendar-check"></i><span>View Attendance</span><!--<i class="bi bi-chevron-down ms-auto"></i>-->
+        </a>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'dutyleave1' %}">
+          <i class="bi bi-calendar-plus"></i></i><span>Request Leave</span><!--<i class="bi bi-chevron-down ms-auto"></i>-->
+        </a>
+      </li>
+     
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'process_pdf' %}">
+          <i class="bx bxs-file-blank"></i><span>Upload GradeCard </span><!--<i class="bi bi-chevron-down ms-auto"></i>-->
+        </a>
+      </li>
+      <li class="nav-heading">More</li>
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="{% url 'contact1' %}">
+          <i class="bi bi-envelope"></i><span>Contact</span>
+        </a>
+      </li><!-- End Contact Page Nav -->
+
+
+
+
+
+    </ul>
+
+  </aside><!-- End Sidebar-->
+
+  <main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>Student</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
+          <li class="breadcrumb-item active">View Internal Mark</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+   
+     <div class="col-md-4">
+
+  <form class="form" style="padding-top:38px;" method="POST" action="{%url 'studinternalv'%}">
+ {% csrf_token %}
+        <label for="inputsubject" class="form-label">Subject</label>
+        <select id="inputsubject" name="inputsubject" class="form-select">
+          <option selected>Select Subject</option>
+          {% for s in sub%}
+          <option value="{{s.id}}">{{s.Subjects.Subject_name}}</option>
+          {% endfor %}
+        </select>
+      </div> 
+      <br>
+      <div class="col-sm-10">
+          <button type="submit" class="btn btn-primary">View Internalmark</button>
+      </div>
+      </form>
+     
+  
+  </main><!-- End #main -->
+  
+
+</html>
+{% endblock %}

@@ -1,0 +1,244 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<html>
+<head>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+ <style>
+   .hidden-input {
+     display: none;
+   }
+ </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.5/jspdf.min.js"></script>  
+<script>
+  $(document).ready(function () {  
+    var form = $('.form'),  
+    cache_width = form.width(),  
+    a4 = [595.28, 841.89]; // for a4 size paper width and height  
+    $('#generate_pdf').on('click', function () {  
+        $('body').scrollTop(0);  
+        generatePDF();  
+    });  
+    function generatePDF() {  
+        getCanvas().then(function (canvas) { 
+            var img = canvas.toDataURL("image/png"),  
+
+             doc = new jsPDF({  
+                 unit: 'px',  
+                 format: 'a4'  
+             });  
+            doc.addImage(img, 'JPEG', 20, 20);  
+            doc.save('Task.pdf');  
+            form.width(cache_width);  
+        });  
+    }  
+    function getCanvas() {  
+        form.width((a4[0] * 1.33333) - 80).css('max-width', 'none');  
+        return html2canvas(form, {  
+            imageTimeout: 2000,  
+            removeContainer: true  
+
+        });  
+    }
+});
+    
+</script>
+  </head>
+  <body>
+    <!-- ======= Header ======= -->
+    <header id="header" class="header fixed-top d-flex align-items-center">
+    
+      <div class="d-flex align-items-center justify-content-between">
+        <a href="indexfaculty.html" class="logo d-flex align-items-center">
+         <!-- <img src="{% static 'assets/img/logo.png' %}" alt=""> -->
+          <span class="d-none d-lg-block">RIT CSE</span>
+        </a>
+        <i class="bi bi-list toggle-sidebar-btn"></i>
+      </div><!-- End Logo -->
+    
+    
+      <nav class="header-nav ms-auto">
+        
+    
+            <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+              <img src="{% static 'assets/img/profile_pic.jpg' %}" alt="Profile" class="rounded-circle">
+              <span class="d-none d-md-block dropdown-toggle ps-2">Faculty</span>
+            </a><!-- End Profile Iamge Icon -->
+    
+            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+              
+              <li>
+                <a class="dropdown-item d-flex align-items-center" href="{% url 'loginpage' %}">
+                  <i class="bi bi-box-arrow-right"></i>
+                  <span>Sign Out</span>
+                </a>
+              </li>
+    
+            </ul><!-- End Profile Dropdown Items -->
+          </li><!-- End Profile Nav -->
+    
+        </ul>
+      </nav><!-- End Icons Navigation -->
+    
+    </header><!-- End Header -->
+      <!-- ======= Sidebar ======= -->
+      <aside id="sidebar" class="sidebar">
+    
+        <ul class="sidebar-nav" id="sidebar-nav">
+    
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'indexfaculty' %}">
+              <i class="bi bi-grid"></i>
+              <span>Dashboard</span>
+            </a>
+          </li><!-- End Dashboard Nav -->
+    
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'uploadinternalmark1' %}">
+              <i class="bi bi-journal-text"></i><span>Upload Internal Marks</span>
+            </a>
+          </li><!-- End Forms Nav -->
+    
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'uploadattendance1' %}">
+              <i class="bi bi-layout-text-window-reverse"></i><span>Upload Attendance</span>
+            </a>
+          </li><!-- End Tables Nav -->
+          
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'facviewinternalmark' %}">
+              <i class="bi bi-layout-text-window-reverse"></i><span>View Internal Mark</span>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'facviewattendance' %}">
+              <i class="bi bi-layout-text-window-reverse"></i><span>View Attendance</span>
+            </a>
+          </li>
+
+          
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'dutymedleave1' %}">
+              <i class="bi bi-bar-chart"></i><span>Duty/Medical Leave</span>
+            </a>
+          </li><!-- End Charts Nav -->
+    
+          <li class="nav-heading">More</li>
+          <li class="nav-item">
+            <a class="nav-link collapsed" href="{% url 'contact1' %}">
+              <i class="bi bi-envelope"></i>
+              <span>Contact</span>
+            </a>
+          </li>
+        </ul>
+    
+      </aside><!-- End Sidebar-->
+    <main id="main" class="main">
+        <div class="pagetitle">
+            <h1>Attendance</h1>
+            <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'indexfaculty' %}">Home</a></li>
+                <li class="breadcrumb-item">View Attendance</li>
+            </ol>
+            </nav>
+        </div><!-- End Page Title -->
+      
+        <section class="section">
+            <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                <div class="card-body">
+                 <form class="form" style="padding-top:38px;" method="POST" action="{%url 'stdtfacattendance'%}">
+                  {% csrf_token %}
+                  <div class="row mb-3">
+                    <label for="inputBatch1" class="form-label">Batch </label>
+               <div class="col-md-6">
+                
+                <select id="inputbatch" name="selbatch" class="form-select" required="required">
+                 <option>--Choose--</option>
+     {% for c in bat %}
+     <option value="{{c.id}}" >{{c.Batch_name}}</option>
+     {% endfor %}
+   </select>
+               </div>
+             </div>
+             
+             <div class="row mb-3">
+               <div class="col-md-6">
+                <label for="inputBatch1" class="form-label">Semester </label>
+                <select id="inputsem" name="selsem" class="form-select" required="required">
+                 <option>--Choose--</option>
+     {% for course1 in cr %}
+     <option value="{{course1.id}}" >{{course1.Semester_name}}</option>
+     {% endfor %}
+   </select>
+               </div>
+                <div class="col-md-6">
+                   <label for="inputsubject" class="form-label"> Course</label>
+                   <select id="inputsubject" name="selsub" class="form-select" required="required">
+                     <option>--Choose--</option>
+     {% for s in sem %}
+     <option value="{{s.id}}" data-course-id="{{s.Semester_id}}">{{s.Subject_name}}</option>
+     {% endfor %}
+      <br>
+      <div class="col-sm-10">
+          <button type="submit" class="btn btn-primary">View Attendance</button>
+      </div>
+      </form>
+                <!--   <br>
+      <button type="button"  id="generate_pdf" value="Generate PDF" class="btn btn-primary" style=" margin-right: 0;float: right;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-pdf" viewBox="0 0 16 16">
+<path d="M4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H4zm0 1h8a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z"></path>
+<path d="M4.603 12.087a.81.81 0 0 1-.438-.42c-.195-.388-.13-.776.08-1.102.198-.307.526-.568.897-.787a7.68 7.68 0 0 1 1.482-.645 19.701 19.701 0 0 0 1.062-2.227 7.269 7.269 0 0 1-.43-1.295c-.086-.4-.119-.796-.046-1.136.075-.354.274-.672.65-.823.192-.077.4-.12.602-.077a.7.7 0 0 1 .477.365c.088.164.12.356.127.538.007.187-.012.395-.047.614-.084.51-.27 1.134-.52 1.794a10.954 10.954 0 0 0 .98 1.686 5.753 5.753 0 0 1 1.334.05c.364.065.734.195.96.465.12.144.193.32.2.518.007.192-.047.382-.138.563a1.04 1.04 0 0 1-.354.416.856.856 0 0 1-.51.138c-.331-.014-.654-.196-.933-.417a5.716 5.716 0 0 1-.911-.95 11.642 11.642 0 0 0-1.997.406 11.311 11.311 0 0 1-1.021 1.51c-.29.35-.608.655-.926.787a.793.793 0 0 1-.58.029zm1.379-1.901c-.166.076-.32.156-.459.238-.328.194-.541.383-.647.547-.094.145-.096.25-.04.361.01.022.02.036.026.044a.27.27 0 0 0 .035-.012c.137-.056.355-.235.635-.572a8.18 8.18 0 0 0 .45-.606zm1.64-1.33a12.647 12.647 0 0 1 1.01-.193 11.666 11.666 0 0 1-.51-.858 20.741 20.741 0 0 1-.5 1.05zm2.446.45c.15.162.296.3.435.41.24.19.407.253.498.256a.107.107 0 0 0 .07-.015.307.307 0 0 0 .094-.125.436.436 0 0 0 .059-.2.095.095 0 0 0-.026-.063c-.052-.062-.2-.152-.518-.209a3.881 3.881 0 0 0-.612-.053zM8.078 5.8a6.7 6.7 0 0 0 .2-.828c.031-.188.043-.343.038-.465a.613.613 0 0 0-.032-.198.517.517 0 0 0-.145.04c-.087.035-.158.106-.196.283-.04.192-.03.469.046.822.024.111.054.227.09.346z"></path>
+</svg>
+Generate PDF
+      </button>
+
+
+                    <form class="form"> -->
+                    <!-- <div class="row mb-3"> -->
+                   
+                <!--   <br>
+                    <h5 style="text-align: center;">Attendance</h5>
+
+                    <table class="table">
+                        <thead>
+                          <tr>
+                            <th scope="col">Roll Number</th>
+                            <th scope="col">Name</th>
+                            <!-- <th scope="col">Subject Name</th> -->
+
+                           <!--  <th scope="col">Present Hours</th>
+                            <th scope="col">Total Hours</th>
+                            <th scope="col">Percentage</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {% for student in students %}
+        <tr>
+          <td>{{student.Rollno}}</td>
+            <td>{{ student.Name }}</td> --> -->
+             <!-- <td>{{ student.subject_name }}</td> -->
+           <!--  <td>{{ student.total_hour }}</td>
+            <td>{{ student.present_hour }}</td>
+            <td>{{ student.percentage }}%</td>
+        </tr>
+        {% endfor %} -->
+                      <!--   </tbody>
+                      </table>
+                  </form> -->
+
+                      <!-- End Table with stripped rows -->
+    </div>
+
+</section>
+</main>
+
+</body>
+</html>
+{% endblock %}

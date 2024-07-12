@@ -1,0 +1,12 @@
+{% load static %}
+<html>
+<title>example</title>
+<head> <link rel="stylesheet" href="{% static 'css/main.css' %}" type="text/css" /></head>
+	<body>
+		<h2>HI</h2>
+		 <div class="container">
+      {% block pagecontent %}
+      {% endblock %}
+    </div>
+	</body>
+</html>S

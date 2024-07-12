@@ -1,0 +1,212 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<html>
+<body>
+  <header id="header" class="header fixed-top d-flex align-items-center">
+
+    <div class="d-flex align-items-center justify-content-between">
+      <a href="indexadvisor.html" class="logo d-flex align-items-center">
+       <!-- <img src="{% static 'assets/img/logo.png' %}" alt=""> -->
+        <span class="d-none d-lg-block">RIT CSE</span>
+      </a>
+      <i class="bi bi-list toggle-sidebar-btn"></i>
+    </div><!-- End Logo -->
+  
+  
+    <nav class="header-nav ms-auto">
+      
+  
+          <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+            <img src="{% static 'assets/img/profile_pic.jpg' %}" alt="Profile" class="rounded-circle">
+            <span class="d-none d-md-block dropdown-toggle ps-2">Advisor</span>
+          </a><!-- End Profile Iamge Icon -->
+  
+          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+            
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="{% url 'loginpage' %}">
+                <i class="bi bi-box-arrow-right"></i>
+                <span>Sign Out</span>
+              </a>
+            </li>
+  
+          </ul><!-- End Profile Dropdown Items -->
+        </li><!-- End Profile Nav -->
+  
+      </ul>
+    </nav><!-- End Icons Navigation -->
+  
+  </header><!-- End Header -->
+
+  <aside id="sidebar" class="sidebar">
+    <ul class="sidebar-nav" id="sidebar-nav">
+      <li class="nav-item">
+        <a class="nav-link " href="{% url 'indexadvisor' %}">
+          <i class="bi bi-grid"></i>
+          <span>Dashboard</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link " href="{% url 'advisorpdview' %}">
+          <i class="bi bi-grid"></i>
+          <span>View Personal Details of Students</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link " href="{% url 'adviewinternalmark' %}">
+          <i class="bi bi-grid"></i>
+          <span>View Internal Marks</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link " href="{% url 'adviewattendance' %}">
+          <i class="bi bi-grid"></i>
+          <span>View Attendance</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link " href="{% url 'leaveapproval' %}">
+          <i class="bi bi-grid"></i>
+          <span>Approve Duty Leave / Medical Leave</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link " href="{% url 'result' %}">
+          <i class="bi bi-grid"></i>
+          <span>Result Analysis</span>
+        </a>
+      </li>
+      <!-- <li class="nav-item"> -->
+          <!-- <a class="nav-link " href="{% url 'reportgeneration' %}"> -->
+          <!-- <i class="bi bi-grid"></i> -->
+          <!-- <span>Report Generation</span> -->
+          <!-- </a> -->
+      <!-- </li> -->
+      <li class="nav-heading">More</li>
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="{% url 'contact1' %}">
+          <i class="bi bi-envelope"></i>
+          <span>Contact</span>
+        </a>
+      </li><!-- End Contact Page Nav -->
+    </ul>
+
+  </aside><!-- End Sidebar-->
+
+  <main id="main" class="main">
+    <div class="pagetitle">
+      <h1>Approve Duty Leave / Medical Leave</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="indexadvisor.html">Home</a></li>
+          <li class="breadcrumb-item">Approve Duty Leave / Medical Leave</li>
+        </ol>
+      </nav>
+    </div>
+
+    <br>
+    <section class="section">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Leave Approval</h5>
+              <!-- <form> -->
+                <div class= "row mb-12">
+                  <div class="row mb-3" >
+                    <!-- <label class="col-sm-2 col-form-label">Select Month</label> -->
+                    <div class="col-sm-4">
+                      <!-- <select class="form-select" aria-label="Default select example" id="dutymedicalleave"> -->
+                        <!-- <option value="" disabled selected>Select Month</option> -->
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <form method="post" action="{% url 'leaveapproval' %}">
+    {% csrf_token %}
+              <!-- </form> -->
+              <table class="table datatable">
+                <thead>
+                  <tr>
+                    <th scope="col">Roll No:</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Category</th>
+                    <th scope="col">Course</th>
+                    <th scope="col">Faculty</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Hour</th>
+                    <th scope="col">Reason</th>
+                    <th scope="col">Certificate</th>
+                    <th scope="col">Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    {% for lv in lvapprove %}
+
+                    <th scope="row">{{lv.Students.Rollno}}</th>
+                    <td>{{lv.Students.Name}}</td>
+                    <td>{{lv.LeaveType}}</td>
+                    <td>{{lv.Subjects.Subject_name}}</td>
+                    <td>{{lv.Faculties.Faculty_name}}</td>
+                    <td>{{lv.Date}}</td>
+                    <td>{{lv.Hour}}</td>
+                    <td>{{lv.Reason}}</td>
+                    <!-- <td>{{lv.id}}</td> -->
+                    <td>  {% if lv.DL_upload %}
+                    <a href="{{ lv.DL_upload.url }}">{{ lv.DL_upload.name }}</a>
+                {% else %}
+                    No certificate uploaded
+                {% endif %}</td>
+                <!-- <form method="post" action="{% url 'update_status' %"> -->
+        <!-- {% csrf_token %} -->
+                      <td>
+                        <label>
+                      <input type="radio" name="status_{{ lv.id }}" value="True"> Approved
+                    </label>
+                    <br>
+                    <label>
+                      <input type="radio" name="status_{{ lv.id }}" value="False"> Rejected
+                    </label>
+                    <input type="hidden" name="leave_id_{{ lv.id }}" value="{{ lv.id }}">
+                  </td>
+                        <!-- <label><input type="radio" name="status" value="True">Approved</label> -->
+                        <!-- <br> -->
+                        <!-- <label><input type="radio" name="status" value="False">Rejected </label> -->
+                      <!-- </td> -->
+                       <!-- <input type="hidden" name="leave_id" value="{{ lv.id }}"> -->
+                      <style type="text/css">
+                        .centerbutton{
+                            display: flex;
+                            justify-content: center;
+                            align-items:center;
+                            height:10vh;
+
+                        }
+                      </style>
+                        
+
+
+                  </tr>
+                  {% endfor %}
+                      <!-- <div class="centerbutton"> -->
+                        <!-- <button type="submit"  class="btn btn-primary">Update </button> -->
+                      <!-- </div> -->
+
+
+    <!-- </form> -->
+
+                </tbody>
+              </table>
+               <button type="submit" class="btn btn-primary">Update Status</button>
+                </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
+{% endblock %}

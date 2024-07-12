@@ -1,0 +1,277 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  
+</head>
+
+<body>
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="header fixed-top d-flex align-items-center">
+
+    <div class="d-flex align-items-center justify-content-between">
+      <a href="index.html" class="logo d-flex align-items-center">
+       <!-- <img src="{% static 'assets/img/logo.png' %}" alt=""> -->
+        <span class="d-none d-lg-block">RIT CSE</span>
+      </a>
+      <i class="bi bi-list toggle-sidebar-btn"></i>
+    </div><!-- End Logo -->
+
+
+    <nav class="header-nav ms-auto">
+      
+
+          <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+            <img src="{% static 'assets/img/profile_pic.jpg' %}" alt="Profile" class="rounded-circle">
+            <span class="d-none d-md-block dropdown-toggle ps-2">Student</span>
+          </a><!-- End Profile Iamge Icon -->
+
+          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+            
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="{% url 'loginpage' %}">
+                <i class="bi bi-box-arrow-right"></i>
+                <span>Sign Out</span>
+              </a>
+            </li>
+
+          </ul><!-- End Profile Dropdown Items -->
+        </li><!-- End Profile Nav -->
+
+      </ul>
+    </nav><!-- End Icons Navigation -->
+
+  </header><!-- End Header -->
+
+  <aside id="sidebar" class="sidebar">
+
+    <ul class="sidebar-nav" id="sidebar-nav">
+
+      <li class="nav-item">
+        <a class="nav-link " href="{% url 'index' %}">
+          <i class="bi bi-grid"></i>
+          <span>Dashboard</span>
+        </a>
+      </li><!-- End Dashboard Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-menu-button-wide"></i><span><!-- Components-->Personal details</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          <li>
+            <a href="{% url 'viewpersonaldetails1' %}">
+              <i class="bi bi-circle"></i><span>View</span>
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'edit' %}">
+              <i class="bi bi-circle"></i><span>Edit</span>
+            </a>
+          </li>      
+        </ul>
+      </li><!-- End Components Nav -->
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'viewinternalmark1' %}">
+          <i class="bi bi-journal-text"></i><span>View Internal Mark</span><!--<i class="bi bi-chevron-down ms-auto"></i>-->
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'viewattendance1' %}">
+          <i class="bi bi-calendar-check"></i><span>View Attendance</span><!--<i class="bi bi-chevron-down ms-auto"></i>-->
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'dutyleave1' %}">
+          <i class="bi bi-calendar-plus"></i></i><span>Request Leave</span><!--<i class="bi bi-chevron-down ms-auto"></i>-->
+        </a>
+      </li>
+     
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'process_pdf' %}">
+          <i class="bx bxs-file-blank"></i><span>Upload GradeCard </span><!--<i class="bi bi-chevron-down ms-auto"></i>-->
+        </a>
+      </li>
+      <li class="nav-heading">More</li>
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="{% url 'contact1' %}">
+          <i class="bi bi-envelope"></i><span>Contact</span>
+        </a>
+      </li><!-- End Contact Page Nav -->
+
+
+    </ul>
+
+  </aside><!-- End Sidebar-->
+  <main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>Student</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <li class="breadcrumb-item active">Request Leave</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+    <h1>Duty Leave/Medical Leave</h1>
+    <br>
+    <form class="row g-3" enctype="multipart/form-data" method="POST" action="{% url 'saveleave' %}">
+      {% csrf_token %}
+      <div class="row mb-3">
+      <div class="col-md-4">
+      <label for="inputtype" class="form-label"> Leave Type</label>
+          
+      <select id="inputtype" class="form-select" name="reqdutyleave" id="reportType" onchange="showOptions()">
+        <option disabled selected>Leave Type</option>
+        <option value = "Duty Leave">Duty Leave</option>
+        <option value = "Medical Leave">Medical Leave</option>
+      </select>
+  </div>
+  </div>
+  <br>
+   <div class="row mb-3">
+    <div class="col-md-6">
+                  <label for="inputseme" class="form-label"> Semester</label>
+      <select id="inputsemester" name ="selsem" class="form-select" required="required">
+                     <option>--Select Semester--</option>
+                       {% for s1 in sem %}
+                        <option value="{{s1.id}}">{{s1.Semester_name}}</option>
+                        {% endfor %}
+        
+      </select>
+    </div>
+    <!-- </div> -->
+  <!-- <div class="row mb-3"> -->
+    <div class="col-md-6">
+      <label for="inputsemes" class="form-label">Select Subject</label>
+      <select id="inputsub" name ="selsubject" class="form-select" required="required">
+        <option>--Select Subject--</option>
+        
+        {% for s in sub %}
+           <option value="{{s.id}}" data-sem-id="{{s.Semester_id}}">{{s.Subject_name}}</option>
+        {% endfor %}
+      </select>
+    </div>
+    </div>
+    <br>
+    <div class="row mb-3">
+    <div class="col-md-6">
+      <label for="inputName3" class="form-label">Faculty name</label>
+      <select id="facselect" name ="selfacname" class="form-select" >
+        <option>--Select Faculty--</option>
+      {% for facultyname1 in fac %}
+        <option value="{{facultyname1.id}}" data-sub-id="{{facultyname1.Subjects_id}}">{{facultyname1.Faculties.Faculty_name}} </option>
+      {% endfor %}
+      </select>
+    </div>
+    </div>
+    <br>
+    <div class="row mb-3">
+      <label for="inputDate" class="col-sm-1 col-form-label"> Date</label>
+      <div class="col-sm-3">
+        <input type="date" class="form-control" name="seldate">
+      </div>
+    </div>
+    <!-- <div class="row mb-3"> -->
+      <!-- <label for="inputDate" class="col-sm-1 col-form-label">End  Date</label> -->
+      <!-- <div class="col-sm-3"> -->
+        <!-- <input type="date" class="form-control" name="seldate"> -->
+      <!-- </div> -->
+      <!-- </div> -->
+
+    <br>
+    <div class="col-md-3">
+      <label for="inputid" id="attendanceOptions" style="" class="form-label">Hour</label>
+      <select id="inputid" class="form-select" name="selhour">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+      </select>
+    </div>
+    <br>
+      <div class="col-md-4"></div>
+        <label for="reason" class="form-label">Reason:</label>
+        <input type="text" id="reason" class="form-control" name="reason">
+      </div>
+
+        <label for="certificates" class="form-label"> Upload Certificates:</label>
+        <input type="file" class="form-control" id="certificates" name="certificates" multiple>
+      <br>
+      <div class="col-md-4">
+            <button type="submit" class="btn btn-primary">Submit</button>
+      </div> 
+      <!-- {{student.Batches_id}} -->
+      <!-- {{sub.Subjects_id}} -->
+      <!-- {{subb.Subject_name}} -->
+       <div class = "row">
+        {% if messages %}
+        {% for message in messages %}
+        <p style="color:green;">{{message}}</p> 
+        {% endfor %}
+        {% endif %}
+      </div>
+  </form>
+              <script>
+    $(document).ready(function() {
+      var $semSelect = $("#inputsemester");
+      var $semOptions = $semSelect.find('option');
+      var $subSelect = $("#inputsub");
+
+      var $subOptions = $subSelect.find('option');
+      var $facSel = $("#facselect");
+      var $facOptions = $facSel.find('option');
+
+      $semSelect.on('change', function() {
+      var selectedCourseId = $(this).val();
+
+        // Show all semester options
+        $subOptions.show();
+
+        // Filter semester options based on the selected course
+        if (selectedCourseId !== '') {
+          $subOptions.each(function() {
+            if ($(this).attr('data-sem-id') !== selectedCourseId) {
+              $(this).hide();
+            }
+          });
+        }
+      });
+       $subSelect.on('change', function() {
+        var selectedfacId = $(this).val();
+
+        // Show all semester options
+        $facOptions.show();
+
+        // Filter semester options based on the selected course
+        if (selectedfacId !== '') {
+          $facOptions.each(function() {
+            if ($(this).attr('data-sub-id') !== selectedfacId) {
+              $(this).hide();
+            }
+          });
+        }
+      });
+
+          });
+        
+      
+
+    
+
+
+
+
+              </script>
+</main><!-- End #main -->
+  
+
+</html>
+{% endblock %}

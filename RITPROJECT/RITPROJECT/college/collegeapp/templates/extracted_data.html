@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Extracted Data</title>
+</head>
+<body>
+    <h1>Extracted Data from PDF</h1>
+    <h2>Student Details:</h2>
+    <p>Name of Candidate: {{ extracted_data.name_candidate }}</p>
+    <p>Register No: {{ extracted_data.regno }}</p>
+    <p>Name of College: {{ extracted_data.clgname }}</p>
+    <p>Branch: {{ extracted_data.branch }}</p>
+    <p>Semester: {{ extracted_data.sem }}</p>
+    <p>Program: {{ extracted_data.pgm }}</p>
+
+    <h2>Course Details:</h2>
+    <table>
+        <tr>
+            <th>Course Name</th>
+            <th>Code</th>
+            <th>Grade</th>
+            <th>Credits</th>
+            <th>Month &amp; Year of Examination</th>
+        </tr>
+        {% for course in extracted_data.courses %}
+        <tr>
+            <td>{{ course.coursname }}</td>
+            <td>{{ course.code }}</td>
+            <td>{{ course.grade }}</td>
+            <td>{{ course.credits }}</td>
+            <td>{{ course.mnthyearofexam }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <h2>Total Earned Credits: {{ extracted_data.totcrd }}</h2>
+    <h2>SGPA: {{ extracted_data.sgpa }}</h2>
+</body>
+</html>

@@ -1,0 +1,315 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<html>
+<head>
+   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+  <!-- ======= Header ======= -->
+  <header id="header" class="header fixed-top d-flex align-items-center">
+  
+    <div class="d-flex align-items-center justify-content-between">
+      <a href="indexfaculty.html" class="logo d-flex align-items-center">
+       <!-- <img src="{% static 'assets/img/logo.png' %}" alt=""> -->
+        <span class="d-none d-lg-block">RIT CSE</span>
+      </a>
+      <i class="bi bi-list toggle-sidebar-btn"></i>
+    </div><!-- End Logo -->
+  
+  
+    <nav class="header-nav ms-auto">
+      
+  
+          <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+            <img src="{% static 'assets/img/profile_pic.jpg' %}" alt="Profile" class="rounded-circle">
+            <span class="d-none d-md-block dropdown-toggle ps-2">Faculty</span>
+          </a><!-- End Profile Iamge Icon -->
+  
+          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+            
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="{% url 'loginpage' %}">
+                <i class="bi bi-box-arrow-right"></i>
+                <span>Sign Out</span>
+              </a>
+            </li>
+  
+          </ul><!-- End Profile Dropdown Items -->
+        </li><!-- End Profile Nav -->
+  
+      </ul>
+    </nav><!-- End Icons Navigation -->
+  
+  </header><!-- End Header -->
+    <!-- ======= Sidebar ======= -->
+    <aside id="sidebar" class="sidebar">
+  
+      <ul class="sidebar-nav" id="sidebar-nav">
+  
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'indexfaculty' %}">
+            <i class="bi bi-grid"></i>
+            <span>Dashboard</span>
+          </a>
+        </li><!-- End Dashboard Nav -->
+  
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'uploadinternalmark1' %}">
+            <i class="bi bi-journal-text"></i><span>Upload Internal Marks</span>
+          </a>
+        </li><!-- End Forms Nav -->
+  
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'uploadattendance1' %}">
+            <i class="bi bi-layout-text-window-reverse"></i><span>Upload Attendance</span>
+          </a>
+        </li><!-- End Tables Nav -->
+        
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'facviewinternalmark' %}">
+            <i class="bi bi-layout-text-window-reverse"></i><span>View Internal Mark</span>
+          </a>
+        </li>
+        
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'facviewattendance' %}">
+            <i class="bi bi-layout-text-window-reverse"></i><span>View Attendance</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'dutymedleave1' %}">
+            <i class="bi bi-bar-chart"></i><span>Duty/Medical Leave</span>
+          </a>
+        </li><!-- End Charts Nav -->
+  
+        <li class="nav-heading">More</li>
+        <li class="nav-item">
+          <a class="nav-link collapsed" href="{% url 'contact1' %}">
+            <i class="bi bi-envelope"></i>
+            <span>Contact</span>
+          </a>
+        </li>
+      </ul>
+  
+    </aside><!-- End Sidebar-->
+  <main id="main" class="main">
+    <div class="pagetitle">
+      <h1>Upload Internal Mark  </h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'uploadinternalmark1' %}">Home</a></li>
+          <li class="breadcrumb-item active">Upload Internal mark</li>
+        </ol>
+      </nav>
+      </div>
+      <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Upload Internal mark</h5>
+    <form class="row" method="POST" action="{% url 'saveinteralmark' %}">
+      {% csrf_token %}
+      <div class="col-md-4">
+        <label for="inputname6" class="form-label">Batch</label>
+        <!-- <input type="text" class="form-control" id="inputname6" name="inputname6"> -->
+            <select id="inputbatch" name="selbatch" class="form-select" required="required">
+            <option>--select Batch--</option>
+        {% for b in bat %}
+        <option value="{{b.id}}">{{b.Batch_name}}</option>
+        {% endfor %}
+      </select>
+      </div>
+      <!-- {% for f in factsub %} -->
+      <!-- <h6>{{f.Subjects.Subject_name}}</h6> -->
+      <!-- {% endfor %} -->
+      <div class="col-md-4">
+        <label for="inputname6" class="form-label">Name</label>
+        <!-- <input type="text" class="form-control" id="inputname6" name="inputname6"> -->
+            <select id="inputstudname" name="selstudname" class="form-select" required="required">
+                        <option>--select student--</option>
+        {% for s in st %}
+        <option value="{{s.id}}" data-stud-id="{{s.Batches_id}}">{{s.Name}}</option>
+        {% endfor %}
+      </select>
+      </div >
+       <div class="col-md-3">
+        <label for="inputroll6" class="form-label">Roll No.</label>
+        <input type="text" class="form-control" id="inputroll6" name="inputroll6">
+      </div>
+      <br>
+      <div class="row" style="padding-top: 12px">
+        <div class="col-md-4">
+        <label for="inputname6" class="form-label">Course</label>
+        <!-- <input type="text" class="form-control" id="inputname6" name="inputname6"> -->
+            <select id="inputbatch" name="selfacsub" class="form-select" required="required">
+            <option>--select Course--</option>
+        {% for f in factsub %}
+        <option value="{{f.id}}">{{f.Subjects.Subject_name}}</option>
+        {% endfor %}
+      </select>
+      </div>
+    </div>
+     <!-- <div class="card-body"> -->
+                      <br> 
+                      <div class="form-group row" style="padding-top: 10px;">
+                      <label
+                        for="intentid"
+                        class="col-sm-2 control-label col-form-label"
+                        >Assignment No </label
+                      >
+                      <div class="col-sm-1">
+                     <input type="text" class="form-control" id="assign1"   name="asgn1" />
+
+                      </div>
+                   
+                      <label
+                        for="total_amount"
+                        class="col-sm-1 control-label col-form-label"
+                        >Mark</label
+                      >
+                      <div class="col-sm-3" id="company">
+                       <input type="text" class="form-control" id="makasgn1" name="makasgn1" />   
+
+                      </div>
+                   
+               
+                      </div>
+                         <div class="form-group row" style="padding-top: 10px;">
+                      <label
+                        for="intentid"
+                        class="col-sm-2 control-label col-form-label"
+                        >Assignment No </label
+                      >
+                      <div class="col-sm-1">
+                     <input type="text" class="form-control" id="assign1"   name="asgn2" />
+
+                      </div>
+                   
+                      <label
+                        for="total_amount"
+                        class="col-sm-1 control-label col-form-label"
+                        >Mark</label
+                      >
+                      <div class="col-sm-3" id="company">
+                       <input type="text" class="form-control" id="makasgn2" name="makasgn2" />   
+
+                      </div>
+                   
+               
+                      </div>
+                     
+               
+                      <!-- </div> -->
+                      <div class="form-group row" style="padding-top: 10px;">
+                      <label
+                        for="intentid"
+                        class="col-sm-2 control-label col-form-label"
+                        >Series No</label
+                      >
+                     
+                    <div class="col-sm-1">
+                     <input type="text" class="form-control" id="assign1"   name="series1" />
+
+                      </div>
+                      <label
+                        for="total_amount"
+                        class="col-sm-1 control-label col-form-label"
+                        >Mark</label
+                      >
+                      <div class="col-sm-3" id="company">
+                       <input type="text" class="form-control" id="seriesmm" name="seriesmm" />   
+
+                      </div>
+                   
+               
+                      </div>
+                   
+                     <div class="form-group row" style="padding-top: 10px;">
+                      <label
+                        for="intentid"
+                        class="col-sm-2 control-label col-form-label"
+                        >Series No  </label
+                      >
+                      <div class="col-sm-1">
+                     <input type="text" class="form-control" id="assign1"   name="series2" />
+
+                      </div>
+                   
+                      <label
+                        for="total_amount"
+                        class="col-sm-1 control-label col-form-label"
+                        >Mark</label
+                      >
+                      <div class="col-sm-3" id="company">
+                       <input type="text" class="form-control" id="seriesmm2" name="seriesmm2" />   
+
+                      </div>
+                   
+               
+                      </div>
+                      <div class="row" style="padding-top: 10px;">
+                        <label
+                        for="total_amount"
+                        class="col-sm-2 control-label col-form-label"
+                        >Attendance</label
+                      >
+                      <div class="col-sm-3" id="company">
+                       <input type="text" class="form-control" id="att" name="inputatt1" />   
+
+                      </div>
+                   
+                      </div>
+   
+          
+          <br>
+            <div class="col-sm-10">
+              <br>
+          <button type="submit" class="btn btn-primary">Upload</button>
+      </div>
+        </div>
+
+        </div>
+      
+         <div class = "row">
+        {% if messages %}
+        {% for message in messages %}
+        <p style="color:green;">{{message}}</p> 
+        {% endfor %}
+        {% endif %}
+      </div>
+      </form>
+      <script>
+    $(document).ready(function() {
+      var $batchselect=$("#inputbatch");
+      
+      var $studentSelect = $("#inputstudname");
+      var $studentOptions = $studentSelect.find('option');
+     
+      $batchselect.on('change', function() {
+        var selectedbatchId = $(this).val();
+
+        // Show all semester options
+        $studentOptions.show();
+
+        // Filter semester options based on the selected course
+        if (selectedbatchId !== '') {
+          $studentOptions.each(function() {
+            if ($(this).attr('data-stud-id') !== selectedbatchId) {
+              $(this).hide();
+            }
+          });
+        }
+      });
+     
+
+
+    });
+  </script> 
+      </div>
+      </div>
+  </main>
+
+</body>
+
+</html>
+{% endblock %}

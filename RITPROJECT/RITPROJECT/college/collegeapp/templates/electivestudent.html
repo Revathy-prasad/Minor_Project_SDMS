@@ -1,0 +1,406 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<html>
+<body>
+  
+  <!-- ======= Header ======= -->
+  <header id="header" class="header fixed-top d-flex align-items-center">
+
+    <div class="d-flex align-items-center justify-content-between">
+      <a href="index_admin.html" class="logo d-flex align-items-center">
+       <!-- <img src="{% static 'assets/img/logo.png' %}" alt=""> -->
+        <span class="d-none d-lg-block">RIT CSE</span>
+      </a>
+      <i class="bi bi-list toggle-sidebar-btn"></i>
+    </div><!-- End Logo -->
+
+
+    <nav class="header-nav ms-auto">
+      
+
+          <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+            <img src="{% static 'assets/img/profile_pic.jpg' %}" alt="Profile" class="rounded-circle">
+            <span class="d-none d-md-block dropdown-toggle ps-2">Admin</span>
+          </a><!-- End Profile Iamge Icon -->
+
+          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+            
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="{% url 'loginpage' %}">
+                <i class="bi bi-box-arrow-right"></i>
+                <span>Sign Out</span>
+              </a>
+            </li>
+
+          </ul><!-- End Profile Dropdown Items -->
+        </li><!-- End Profile Nav -->
+
+      </ul>
+    </nav><!-- End Icons Navigation -->
+
+  </header><!-- End Header -->
+
+  <!-- ======= Sidebar ======= -->
+  <aside id="sidebar" class="sidebar">
+
+    <ul class="sidebar-nav" id="sidebar-nav">
+
+      <li class="nav-item">
+        <a class="nav-link " href="{% url 'projects' %}">
+          <i class="bi bi-grid"></i>
+          <span>Dashboard</span>
+        </a>
+      </li><!-- End Dashboard Nav -->
+
+      <!-- <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-menu-button-wide"></i><span>Register New User</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+           -->
+        <!--  <li>
+            <a href="components-badges.html">
+              <i class="bi bi-circle"></i><span>Badges</span>
+            </a>
+          </li>
+          <li>
+            <a href="components-breadcrumbs.html">
+              <i class="bi bi-circle"></i><span>Breadcrumbs</span>
+            </a>
+          </li>
+          <li>
+            <a href="components-buttons.html">
+              <i class="bi bi-circle"></i><span>Buttons</span>
+            </a>
+          </li>
+          <li>
+            <a href="components-cards.html">
+              <i class="bi bi-circle"></i><span>Cards</span>
+            </a>
+          </li>
+          <li>
+            <a href="components-carousel.html">
+              <i class="bi bi-circle"></i><span>Carousel</span>
+            </a>
+          </li>
+          <li>
+            <a href="components-list-group.html">
+              <i class="bi bi-circle"></i><span>List group</span>
+            </a>
+          </li>
+          <li>
+            <a href="components-modal.html">
+              <i class="bi bi-circle"></i><span>Modal</span>
+            </a>
+          </li>
+          <li>
+            <a href="components-tabs.html">
+              <i class="bi bi-circle"></i><span>Tabs</span>
+            </a>
+          </li>
+          <li>
+            <a href="components-pagination.html">
+              <i class="bi bi-circle"></i><span>Pagination</span>
+            </a>
+          </li>
+          <li>
+            <a href="components-progress.html">
+              <i class="bi bi-circle"></i><span>Progress</span>
+            </a>
+          </li>
+          <li>
+            <a href="components-spinners.html">
+              <i class="bi bi-circle"></i><span>Spinners</span>
+            </a>
+          </li>
+          <li>
+            <a href="components-tooltips.html">
+              <i class="bi bi-circle"></i><span>Tooltips</span>
+            </a>
+          </li> -->
+        <!-- </ul>
+      </li>End Components Nav -->
+      <li class="nav-item">
+        <a class="nav-link " href="{% url 'regfaculty' %}">
+          <i class="bi bi-grid"></i>
+          <span>Register Faculty</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link " href="{% url 'regstudent' %}">
+          <i class="bi bi-grid"></i>
+          <span>Register Student</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#assign-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-journal-text"></i><span>Assign Faculty</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="assign-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          <li>
+            <a href="{% url 'assignsubject1' %}">
+              <i class="bi bi-circle"></i><span>Assign Subject</span>
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'assignadvisor1' %}">
+              <i class="bi bi-circle"></i><span>Assign Advisor</span>
+            </a>
+          </li>
+        </ul>
+      </li><!-- End Forms Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#delete-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-bar-chart"></i><span>Delete User</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="delete-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          <li>
+            <a href="{% url 'delstudent1' %}">
+              <i class="bi bi-circle"></i><span>Student</span>
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'delfaculty1' %}">
+              <i class="bi bi-circle"></i><span>Faculty</span>
+            </a>
+          </li>
+        </ul>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link " href="{% url 'semupdation1' %}">
+          <i class="bi bi-grid"></i>
+          <span>Update Semester</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link " href="{% url 'selectelective1' %}">
+          <i class="bi bi-grid"></i>
+          <span>Select Elective</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#course-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-bar-chart"></i><span>Course</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="course-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          <li>
+            <a href="{% url 'addcourse1' %}">
+              <i class="bi bi-circle"></i><span>Add Course</span>
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'viewcourse' %}">
+              <i class="bi bi-circle"></i><span>View Course</span>
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'deletecourse' %}">
+              <i class="bi bi-circle"></i><span>Delete Course</span>
+            </a>
+          </li>
+        </ul>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#batch-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-bar-chart"></i><span>Batch</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="batch-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          <li>
+            <a href="{% url 'addbatch1' %}">
+              <i class="bi bi-circle"></i><span>Add Batch</span>
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'viewbatch' %}">
+              <i class="bi bi-circle"></i><span>View Batch</span>
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'deletebatch' %}">
+              <i class="bi bi-circle"></i><span>Delete Batch</span>
+            </a>
+          </li>
+        </ul>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#semester-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-bar-chart"></i><span>Semester</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="semester-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          <li>
+            <a href="{% url 'addsemester1' %}">
+              <i class="bi bi-circle"></i><span>Add Semester</span>
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'viewsemester' %}">
+              <i class="bi bi-circle"></i><span>View Semester</span>
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'deletesemester' %}">
+              <i class="bi bi-circle"></i><span>Delete Semester</span>
+            </a>
+          </li>
+        </ul>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#subject-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-bar-chart"></i><span>Subject</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="subject-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          <li>
+            <a href="{% url 'addsubject1' %}">
+              <i class="bi bi-circle"></i><span>Add Subject</span>
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'viewsubject' %}">
+              <i class="bi bi-circle"></i><span>View Subject</span>
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'deletesubject' %}">
+              <i class="bi bi-circle"></i><span>Delete Subject</span>
+            </a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </aside><!-- End Sidebar-->
+<main id="main" class="main">
+    <div class="pagetitle">
+      <h1>Welcome Admin!</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'selectelective1' %}">Home</a></li>
+          <li class="breadcrumb-item active">Select Elective</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+    <script>
+      function showElectives() {
+          var semester = document.getElementById("semester").value;
+          var electiveDiv = document.getElementById("electiveDiv");
+          var openElectiveRollNumbersDiv = document.getElementById("openElectiveRollNumbersDiv");
+          var coreElectiveRollNumbersDiv = document.getElementById("coreElectiveRollNumbersDiv");
+  
+          // Reset elective options
+          electiveDiv.innerHTML = "";
+  
+          if (semester === "6th") {
+              electiveDiv.innerHTML = `
+                  <h5>6th Semester Electives</h5>
+                  <br>
+                  <label for="elective1">Elective 1:</label>
+                  <select id="elective1" name="elective1">
+                      <option value="Option 1">Option 1</option>
+                      <option value="Option 2">Option 2</option>
+                  </select><br><br>
+              `;
+  
+              // Hide roll numbers text areas for other semesters
+              openElectiveRollNumbersDiv.style.display = "none";
+              coreElectiveRollNumbersDiv.style.display = "none";
+          } else if (semester === "7th") {
+              electiveDiv.innerHTML = `
+                  <h5>7th Semester Electives</h5>
+                  <br>
+                  <label for="openElective">Open Elective:</label>
+                  <select id="openElective" name="openElective">
+                      <option value="Option 1">Option 1</option>
+                      <option value="Option 2">Option 2</option>
+                  </select><br><br>
+              `;
+  
+              // Show roll numbers text areas for open elective
+              openElectiveRollNumbersDiv.style.display = "block";
+              coreElectiveRollNumbersDiv.style.display = "none";
+          } else if (semester === "8th") {
+              electiveDiv.innerHTML = `
+                  <h5>8th Semester Electives</h5>
+                  <br>
+                  <label for="openElective">Open Elective:</label>
+                  <select id="openElective" name="openElective">
+                      <option value="Option 1">Option 1</option>
+                      <option value="Option 2">Option 2</option>
+                  </select><br><br>
+                  
+                  <label for="coreElective">Core Elective:</label>
+                  <select id="coreElective" name="coreElective">
+                      <option value="Option 1">Option 1</option>
+                      <option value="Option 2">Option 2</option>
+                  </select><br><br>
+              `;
+  
+              // Show roll numbers text areas for open elective and core elective
+              openElectiveRollNumbersDiv.style.display = "block";
+              coreElectiveRollNumbersDiv.style.display = "block";
+          }
+      }
+  
+      function submitSelection() {
+          var semester = document.getElementById("semester").value;
+          var rollNumbersTextarea = document.getElementById("rollNumbers");
+  
+          if (semester === "6th") {
+              var elective1 = document.getElementById("elective1").value;
+              var rollNumbers = "6th Semester Elective: " + elective1;
+              rollNumbersTextarea.value = rollNumbers;
+          } else if (semester === "7th") {
+              var openElective = document.getElementById("openElective").value;
+              var rollNumbers = "7th Semester Open Elective: " + openElective;
+              rollNumbersTextarea.value = rollNumbers;
+          } else if (semester === "8th") {
+              var openElective = document.getElementById("openElective").value;
+              var coreElective = document.getElementById("coreElective").value;
+              var rollNumbers = "8th Semester Open Elective: " + openElective + "\n" +
+                  "8th Semester Core Elective: " + coreElective;
+              rollNumbersTextarea.value = rollNumbers;
+          }
+      }
+  </script>
+  
+  <div class="card">
+      <div class="card-body">
+          <h5 class="card-title">Elective Selection</h5>
+          <form class="row g-3">
+              <div class="col-md-3">
+                  <label for="semester" class="form-label">Select Semester</label>
+                  <select id="semester" class="form-select" onchange="showElectives()">
+                      <option value="">-- Select Semester --</option>
+                      <option value="6th">6th Semester</option>
+                      <option value="7th">7th Semester</option>
+                      <option value="8th">8th Semester</option>
+                  </select><br>
+              </div>
+              <div id="electiveDiv"></div>
+              <div class="col-md-6" id="openElectiveRollNumbersDiv" style="display: none;">
+                  <label for="openElectiveRollNumbers" class="form-label">Enter Roll Numbers for Open Elective</label>
+                  <textarea id="openElectiveRollNumbers" rows="5" cols="40"></textarea><br><br>
+              </div>
+              <div class="col-md-6" id="coreElectiveRollNumbersDiv" style="display: none;">
+                  <label for="coreElectiveRollNumbers" class="form-label">Enter Roll Numbers for Core Elective</label>
+                  <textarea id="coreElectiveRollNumbers" rows="5" cols="40"></textarea><br><br>
+              </div>
+              <div class="text-center">
+                  <button type="button" class="btn btn-primary" onclick="submitSelection()">Assign</button>
+                  <button type="reset" class="btn btn-secondary">Reset</button>
+              </div>
+          </form>
+      </div>
+  </div>
+  
+  
+  
+</main>
+</body>
+
+  <!-- ======= Footer ======= -->
+ </html>
+ {% endblock %}

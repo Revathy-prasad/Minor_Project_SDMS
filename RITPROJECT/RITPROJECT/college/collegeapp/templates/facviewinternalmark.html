@@ -1,0 +1,236 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<html>
+<head>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <style>
+    .hidden-input {
+      display: none;
+    }
+  </style>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.5/jspdf.min.js"></script>  
+<script>
+
+  $(document).ready(function () {  
+    var form = $('.form'),  
+    cache_width = form.width(),  
+    a4 = [595.28, 841.89]; // for a4 size paper width and height  
+    $('#generate_pdf').on('click', function () {  
+        $('body').scrollTop(0);  
+        generatePDF();  
+    });  
+    function generatePDF() {  
+        getCanvas().then(function (canvas) { 
+            var img = canvas.toDataURL("image/png"),  
+             doc = new jsPDF({  
+                 unit: 'px',  
+                 format: 'a4'  
+             });  
+            doc.addImage(img, 'JPEG', 20, 20);  
+            doc.save('Task.pdf');  
+            form.width(cache_width);  
+        });  
+    }  
+    function getCanvas() {  
+        form.width((a4[0] * 1.33333) - 80).css('max-width', 'none');  
+        return html2canvas(form, {  
+            imageTimeout: 2000,  
+            removeContainer: true  
+        });  
+    }
+});
+
+</script>
+<style>
+  .hidden-input {
+    display: none;
+  }
+</style>
+<body>
+  <!-- ======= Header ======= -->
+  <header id="header" class="header fixed-top d-flex align-items-center">
+  
+    <div class="d-flex align-items-center justify-content-between">
+      <a href="indexfaculty.html" class="logo d-flex align-items-center">
+       <!-- <img src="{% static 'assets/img/logo.png' %}" alt=""> -->
+        <span class="d-none d-lg-block">RIT CSE</span>
+      </a>
+      <i class="bi bi-list toggle-sidebar-btn"></i>
+    </div><!-- End Logo -->
+  
+  
+    <nav class="header-nav ms-auto">
+      
+  
+          <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+            <img src="{% static 'assets/img/profile_pic.jpg' %}" alt="Profile" class="rounded-circle">
+            <span class="d-none d-md-block dropdown-toggle ps-2">Faculty</span>
+          </a><!-- End Profile Iamge Icon -->
+  
+          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+            
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="{% url 'loginpage' %}">
+                <i class="bi bi-box-arrow-right"></i>
+                <span>Sign Out</span>
+              </a>
+            </li>
+  
+          </ul><!-- End Profile Dropdown Items -->
+        </li><!-- End Profile Nav -->
+  
+      </ul>
+    </nav><!-- End Icons Navigation -->
+  
+  </header><!-- End Header -->
+    <!-- ======= Sidebar ======= -->
+    <aside id="sidebar" class="sidebar">
+  
+      <ul class="sidebar-nav" id="sidebar-nav">
+  
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'indexfaculty' %}">
+            <i class="bi bi-grid"></i>
+            <span>Dashboard</span>
+          </a>
+        </li><!-- End Dashboard Nav -->
+  
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'uploadinternalmark1' %}">
+            <i class="bi bi-journal-text"></i><span>Upload Internal Marks</span>
+          </a>
+        </li><!-- End Forms Nav -->
+  
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'uploadattendance1' %}">
+            <i class="bi bi-layout-text-window-reverse"></i><span>Upload Attendance</span>
+          </a>
+        </li><!-- End Tables Nav -->
+        
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'facviewinternalmark' %}">
+            <i class="bi bi-layout-text-window-reverse"></i><span>View Internal Mark</span>
+          </a>
+        </li>
+        
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'facviewattendance' %}">
+            <i class="bi bi-layout-text-window-reverse"></i><span>View Attendance</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'dutymedleave1' %}">
+            <i class="bi bi-bar-chart"></i><span>Duty/Medical Leave</span>
+          </a>
+        </li><!-- End Charts Nav -->
+  
+        <li class="nav-heading">More</li>
+        <li class="nav-item">
+          <a class="nav-link collapsed" href="{% url 'contact1' %}">
+            <i class="bi bi-envelope"></i>
+            <span>Contact</span>
+          </a>
+        </li>
+      </ul>
+  
+    </aside><!-- End Sidebar-->
+
+
+    <main id="main" class="main">
+
+        <div class="pagetitle">
+            <h1>Internal Marks</h1>
+            <nav>
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'indexfaculty' %}">Home</a></li>
+                <li class="breadcrumb-item">View Internal Marks</li>
+              </ol>
+            </nav>
+          </div><!-- End Page Title -->
+      
+          <section class="section">
+            <div class="row">
+              <div class="col-lg-12">
+      
+                <div class="card">
+                  <div class="card-body">
+                      <form method="POST" action="{%url 'facviewinternalmark' %}" class="form" style="padding-top:38px;" >
+                        {% csrf_token %}
+                        <div class="row mb-3">
+                          <label for="inputBatch1" class="form-label">Batch </label>
+                     <div class="col-md-6">
+                      
+                      <select id="inputbatch" name="selbatch" class="form-select" required="required">
+                       <option>Choose</option>
+           {% for c in bat %}
+           <option value="{{c.id}}" >{{c.Batch_name}}</option>
+           {% endfor %}
+         </select>
+                     </div>
+                   </div>
+                   
+                   <div class="row mb-3">
+                     <div class="col-md-6">
+                      <label for="inputBatch1" class="form-label">Semester </label>
+                      <select id="inputsem" name="selsem" class="form-select" required="required">
+                       <option>Choose</option>
+           {% for course1 in cr %}
+           <option value="{{course1.id}}" >{{course1.Semester_name}}</option>
+           {% endfor %}
+         </select>
+                     </div>
+                      <div class="col-md-6">
+                         <label for="inputsubject" class="form-label"> Subject</label>
+                         <select id="inputsubject" name="selsub" class="form-select" required="required">
+                           <option>Choose</option>
+           {% for s in sem %}
+           <option value="{{s.id}}" data-course-id="{{s.Semester_id}}">{{s.Subject_name}}</option>
+           {% endfor %}
+      <br>
+      <div class="col-sm-10">
+          <button type="submit" class="btn btn-primary">View Internalmark</button>
+      </div>
+      </form>
+     
+     
+           
+   
+      <script>
+    $(document).ready(function() {
+      var $batchselect=$("#sub");
+
+      var $table = $('#studintern'); // Replace 'yourTableId' with the actual ID of your table
+      var $tableCells = $table.find('td');
+      $batchselect.on('change', function() {
+        var selectedbatchId = $(this).val();
+
+        // Show all semester options
+        $tableCells.show();
+
+        // Filter semester options based on the selected course
+        if (selectedbatchId !== '') {
+          $tableCells.each(function() {
+            if ($(this).attr('data-batch-id') !== selectedbatchId) {
+              $(this).hide();
+            }
+          });
+        }
+      });
+
+    
+      </script>
+                  </div>
+                </div>
+      
+              </div>
+            </div>
+          </section>
+
+    </main>
+</body>
+</html>
+{% endblock %}
